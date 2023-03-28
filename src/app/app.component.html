@@ -1,0 +1,33 @@
+<p-table
+  [value]="products"
+  [columns]="cols"
+  (onRowReorder)="onRowReorder($event)"
+  responsiveLayout="scroll"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width:3rem"></th>
+      <th *ngFor="let col of columns" pReorderableColumn>
+        {{ col.header }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-index="rowIndex"
+  >
+    <tr [pSelectableRow]="rowData" [pReorderableRow]="index">
+      <td>
+        <span class="pi pi-bars" pReorderableRowHandle></span>
+      </td>
+      <td *ngFor="let col of columns">
+        {{ col.field ? rowData[col.field] : index }}
+        <p *ngIf="col.field == 'order'">{{ rowData.data.order }}</p>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<button type="button" pButton (click)="sendDataToAPi()">Submit</button>
+<pre>{{ log | json }}</pre>
